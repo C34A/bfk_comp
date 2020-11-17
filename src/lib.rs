@@ -1,5 +1,6 @@
 pub mod instructions;
 pub mod interpreter;
+pub mod x86_64;
 
 use instructions::{Inst, InstKind};
 

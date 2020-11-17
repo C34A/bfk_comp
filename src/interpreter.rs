@@ -4,7 +4,7 @@ use std::io::{Read};
 use crate::instructions::{Inst, InstKind};
 
 
-pub fn interpret(instructions: Vec<Inst>) {
+pub fn interpret(instructions: &Vec<Inst>) {
     let mut memory: [u8; 30_000] = [0; 30_000];
     let mut ptr: usize = 0;
     let mut inst_addr = 0;
