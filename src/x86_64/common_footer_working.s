@@ -4,4 +4,4 @@
     syscall
 
     .bss
-arr .lcomm 30000 # The memory array
+    .lcomm arr 30000 # The memory array

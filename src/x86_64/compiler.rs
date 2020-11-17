@@ -13,16 +13,16 @@ pub fn compile(instructions: &Vec<Inst>) -> String{
 pub fn to_asm(instr: &Inst) -> String {
     match &instr.kind {
         InstKind::IncPtr => {
-            format!("    add {}, %r12\n", instr.times)
+            format!("    add ${}, %r12\n", instr.times)
         },
         InstKind::DecPtr => {
-            format!("    sub {}, %r12\n", instr.times)
+            format!("    sub ${}, %r12\n", instr.times)
         },
         InstKind::IncByte => {
-            format!("    add {}, r12\n", instr.times)
+            format!("    addb ${}, r12\n", instr.times)
         },
         InstKind::DecByte => {
-            format!("    sub {}, r12\n", instr.times)
+            format!("    subb $+{}, r12\n", instr.times)
         },
         InstKind::WriteByte => {
             let mut msg = String::from("    mov $SYS_WRITE, %rax\n");
@@ -43,13 +43,13 @@ pub fn to_asm(instr: &Inst) -> String {
             msg
         },
         InstKind::LoopStart {end_idx} => {
-            let mut msg = String::from("    cmp r12, 0\n");
+            let mut msg = String::from("    cmp $0, r12\n");
             msg.push_str(&format!("    je LOOP_END_{}\n", end_idx)[..]);
             msg.push_str(&format!("LOOP_START_{}:\n", instr.idx)[..]);
             msg
         },
         InstKind::LoopEnd {start_idx} => {
-            let mut msg = String::from("    cmp r12, 0\n");
+            let mut msg = String::from("    cmp $0, r12\n");
             msg.push_str(&format!("    je LOOP_START_{}\n", start_idx)[..]);
             msg.push_str(&format!("LOOP_END_{}:\n", instr.idx)[..]);
             msg
